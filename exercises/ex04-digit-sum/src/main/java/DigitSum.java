@@ -21,7 +21,12 @@ public class DigitSum {
      * @return the sum of its decimal digits
      */
     public static int digitSum(int n) {
-        // TODO: complete
-        return 0;
+        int newN = n;
+        int sum = 0;
+        while (newN != 0){
+            sum += Math.abs(newN % 10);
+            newN /= 10;
+        }
+        return sum;
     }
 }

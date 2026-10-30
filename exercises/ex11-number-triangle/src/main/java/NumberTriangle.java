@@ -109,8 +109,16 @@ public class NumberTriangle {
     //       value of wherever you ended up. An empty path means "stay here".
     //       Hint: String#charAt(int) and String#length() are all you need for the
     //       iterative version; a recursive version can use String#substring(1).
-    return 0;
-  }
+      NumberTriangle current = this;
+      for (int i = 0; i < path.length(); i++) {
+        if (path.charAt(i) == 'l') {
+          current = current.left;
+        } else {
+          current = current.right;
+        }
+      }
+      return current.getRoot();
+    }
 
   /**
    * Reads in the NumberTriangle structure from a file.
@@ -171,6 +179,8 @@ public class NumberTriangle {
     //       between iterations of the loop below (for example, the row of
     //       NumberTriangle objects that you built on the previous iteration).
 
+    NumberTriangle[] prevRow = null;
+
     // We need to return the top of the NumberTriangle, so here is a variable for it.
     NumberTriangle top = null;
 
@@ -186,12 +196,36 @@ public class NumberTriangle {
       //       as the children of the previous row. Remember the aliasing: the
       //       right child of one node is the left child of the next node over.
 
+      if(!line.isBlank()){
+        String[] parts = line.trim().split("\\s+");
+        NumberTriangle[] row = new NumberTriangle[parts.length];
+
+        for (int i = 0; i < parts.length; i++) {
+          row[i] = new NumberTriangle(Integer.parseInt(parts[i]));
+        }
+
+        if (prevRow == null) {
+          // first row: this single node is the top of the triangle
+          top = row[0];
+        } else {
+          // wire the previous row to this row. Node i's right child and
+          // node i+1's left child are both row[i + 1], which gives the aliasing.
+          for (int i = 0; i < prevRow.length; i++) {
+            prevRow[i].setLeft(row[i]);
+            prevRow[i].setRight(row[i + 1]);
+          }
+        }
+        prevRow = row;
+      }
+
       // read the next line
       line = br.readLine();
     }
     br.close();
     return top;
   }
+
+
 
   /**
    * Loads the example triangle and prints its root value.

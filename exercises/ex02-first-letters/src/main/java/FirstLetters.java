@@ -4,7 +4,7 @@
  * Complete {@link #firstLetters(String)} below.
  *
  *
- * Relevant reading: 1.4. Strings and 1.4.4. StringBuilder.
+ * Relevant reading: 1.4. Strings and 1.4.4. .StringBuilder
  */
 public class FirstLetters {
 
@@ -26,6 +26,15 @@ public class FirstLetters {
      */
     public static String firstLetters(String words) {
         // TODO: complete
-        return "";
+        String lettersString = "";
+        lettersString += words.charAt(0);
+        for (int i = 0; i < words.length(); i++){
+            String currChar = String.valueOf(words.charAt(i));
+            if (currChar.equals(" ")) {
+                lettersString += words.charAt(i + 1);
+            }
+        }
+                
+        return lettersString;
     }
 }
